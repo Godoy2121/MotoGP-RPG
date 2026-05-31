@@ -292,10 +292,10 @@ export function generateRaceEvents(
     }
   }
 
-  // Parada en boxes (carrera)
-  if (!isSprint) {
-    const pitLap = randomInt(Math.floor(totalLaps * 0.3), Math.floor(totalLaps * 0.55));
-    events.push({ lap: pitLap, type: 'pit', message: `🔧 ${apellido} entra en boxes — cambio de neumáticos` });
+  // Cambio de moto flag-to-flag (solo con lluvia intensa)
+  if (!isSprint && weather === 'diluvio') {
+    const ftfLap = randomInt(Math.floor(totalLaps * 0.2), Math.floor(totalLaps * 0.4));
+    events.push({ lap: ftfLap, type: 'pit', message: `🔴 ¡Bandera roja! ${apellido} entra al pitlane — cambio a moto de lluvia` });
   }
 
   // DNF del jugador
@@ -353,67 +353,151 @@ export function generateRaceDecisions(
 ): RaceDecisionEvent[] {
   const decisions: RaceDecisionEvent[] = [];
 
-  // Decisión 1: Safety Car
+  // ── Decisión 1: Safety Car ────────────────────────────────────
+  // En MotoGP el SC no abre ventana de pit — los neumáticos se
+  // enfrían y hay que gestionarlos bien para el reinicio.
   decisions.push({
-    id: 'safety_car_call',
-    lap: randomInt(Math.floor(totalLaps * 0.2), Math.floor(totalLaps * 0.4)),
-    situation: '🔶 Safety Car en pista — ventana de boxes abierta. ¿Cuál es tu estrategia?',
+    id: 'safety_car_restart',
+    lap: randomInt(Math.floor(totalLaps * 0.15), Math.floor(totalLaps * 0.4)),
+    situation: '🔶 Safety Car en pista — los neumáticos se enfrían. El reinicio se acerca. ¿Cómo preparas la moto?',
     options: [
-      { id: 'pit_now', text: 'Entrar en boxes ahora', description: 'Neumáticos frescos, perderás tiempo por el pitlane', positionImpact: 1 },
-      { id: 'stay_out', text: 'Seguir en pista', description: 'Conservas la posición pero con neumáticos usados', positionImpact: 0 },
-      { id: 'aggressive', text: 'Pits + Neumático Blando', description: 'Máximo ataque al reinicio — alto riesgo, alto premio', positionImpact: -1 },
+      {
+        id: 'warm_tires',
+        text: 'Calentar neumáticos con zigzag',
+        description: 'Frenas fuerte y aceleras bajo el SC para mantener temperatura. Reinicio seguro.',
+        positionImpact: 0,
+      },
+      {
+        id: 'attack_restart',
+        text: 'Posicionarte al ataque en el reinicio',
+        description: 'Te colocas en el interior de la curva 1 para adelantar al reinicio. Alto riesgo.',
+        positionImpact: 1,
+      },
+      {
+        id: 'conservative_restart',
+        text: 'Mantener posición y gestionar',
+        description: 'No arriesgas en el reinicio. Terminas donde estabas.',
+        positionImpact: -1,
+      },
     ],
   });
 
-  // Decisión 2: Neumáticos críticos
+  // ── Decisión 2: Degradación de neumático trasero ──────────────
+  // En MotoGP NO se paran en boxes para cambiar neumáticos en seco.
+  // Se gestiona el ritmo o se cambia el mapa de motor.
   decisions.push({
-    id: 'tire_critical',
+    id: 'tire_wear',
     lap: randomInt(Math.floor(totalLaps * 0.55), Math.floor(totalLaps * 0.75)),
-    situation: '⚠️ El trasero está muy degradado — neumático al límite. ¿Cómo gestionas?',
+    situation: '⚠️ El neumático trasero está muy degradado — el slide aumenta en cada curva. ¿Cómo lo gestionas?',
     options: [
-      { id: 'manage_pace', text: 'Gestionar el ritmo', description: 'Conservas el neumático, el ritmo baja ligeramente', positionImpact: 0 },
-      { id: 'push', text: 'Seguir al máximo', description: 'Arriesgas una caída, pero puedes ganar tiempo', positionImpact: -1 },
-      { id: 'pit_fresh', text: 'Boxes urgente', description: 'Neumático nuevo pero pierdes posiciones por el tiempo en boxes', positionImpact: 1 },
+      {
+        id: 'manage_pace',
+        text: 'Bajar el ritmo y gestionar',
+        description: 'Reduces la presión sobre el trasero. Pierdes algo de tiempo pero llegas.',
+        positionImpact: 0,
+      },
+      {
+        id: 'engine_map',
+        text: 'Cambiar al mapa de motor suave',
+        description: 'Reduces la entrega de potencia para proteger el neumático. Inteligente.',
+        positionImpact: 0,
+      },
+      {
+        id: 'push_risk',
+        text: 'Seguir al límite — arriesgar caída',
+        description: 'Mantienes el ritmo pero el riesgo de high-side es real.',
+        positionImpact: -1,
+      },
     ],
   });
 
-  // Decisión 3: Lluvia / Flag-to-Flag (solo si hay humedad)
+  // ── Decisión 3: Lluvia / Flag-to-Flag ─────────────────────────
+  // Solo con humedad. En MotoGP se puede hacer flag-to-flag:
+  // se para a cambiar de moto (moto seca → moto de lluvia).
   if (weather !== 'seco') {
+    const isHeavy = weather === 'mojado' || weather === 'diluvio';
     decisions.push({
-      id: 'rain_decision',
-      lap: randomInt(Math.floor(totalLaps * 0.25), Math.floor(totalLaps * 0.45)),
-      situation: `🌧️ La pista está ${weather === 'diluvio' ? 'empapada' : weather}. ¿Cambias a neumáticos de lluvia?`,
+      id: 'flag_to_flag',
+      lap: randomInt(Math.floor(totalLaps * 0.2), Math.floor(totalLaps * 0.45)),
+      situation: `🌧️ Pista ${weather === 'diluvio' ? 'empapada — peligro real' : 'húmeda'}. Tus ingenieros te ofrecen la opción flag-to-flag. ¿Qué decides?`,
       options: [
-        { id: 'rain_tires', text: 'Boxes para lluvia', description: 'Correcto si llueve — pierdes tiempo en el pitlane', positionImpact: weather === 'mojado' ? 2 : -1 },
-        { id: 'slick_risk', text: 'Seguir con slicks', description: 'Arriesgado con lluvia, pero correcto si para pronto', positionImpact: weather === 'humedo' ? 1 : -2 },
-        { id: 'wait_see', text: 'Esperar instrucciones', description: 'Tu equipo te guía — decisión conservadora', positionImpact: 0 },
+        {
+          id: 'swap_bike',
+          text: 'Pitlane: cambiar a moto de lluvia',
+          description: `Cambio de moto en el pitlane. ${isHeavy ? 'Decisión correcta — ganas seguridad y ritmo.' : 'Pierdes tiempo si escampa pronto.'}`,
+          positionImpact: isHeavy ? 2 : -1,
+        },
+        {
+          id: 'stay_slick',
+          text: 'Seguir con la moto seca',
+          description: `${isHeavy ? 'Muy arriesgado — alto riesgo de caída en mojado.' : 'Correcto si la lluvia es leve y para pronto.'}`,
+          positionImpact: isHeavy ? -2 : 1,
+        },
+        {
+          id: 'wait_team',
+          text: 'Esperar confirmación del equipo',
+          description: 'El muro te dará la orden en la siguiente vuelta. Decisión conservadora.',
+          positionImpact: 0,
+        },
       ],
     });
   }
 
-  // Decisión 4: Duelo rueda a rueda
-  if (playerGridPos > 3) {
+  // ── Decisión 4: Batalla rueda a rueda ────────────────────────
+  // Sin undercut — en MotoGP los adelantamientos son en pista.
+  if (playerGridPos > 2) {
     decisions.push({
       id: 'wheel_to_wheel',
-      lap: randomInt(Math.floor(totalLaps * 0.35), Math.floor(totalLaps * 0.6)),
-      situation: '🏍️ El piloto de delante comete un error — hay hueco para atacar. ¿Cuándo actúas?',
+      lap: randomInt(Math.floor(totalLaps * 0.3), Math.floor(totalLaps * 0.65)),
+      situation: '🏍️ Llevas 3 vueltas persiguiendo al piloto de delante. Estás dentro del segundo. ¿Cómo atacas?',
       options: [
-        { id: 'attack_now', text: 'Atacar en la frenada', description: 'Maniobra agresiva al límite del reglamento', positionImpact: 1 },
-        { id: 'wait_better', text: 'Esperar mejor momento', description: 'Sigues su rebufo y atacas cuando el circuito ayude', positionImpact: 0 },
-        { id: 'undercut', text: 'Undercut en boxes', description: 'Le adelantas estratégicamente en el pitlane', positionImpact: 1 },
+        {
+          id: 'brake_late',
+          text: 'Frenada tardía en la próxima horquilla',
+          description: 'Maniobra clásica de MotoGP. Arriesgas pasarte de frenada.',
+          positionImpact: 1,
+        },
+        {
+          id: 'slipstream',
+          text: 'Usar el rebufo en la recta y adelantar',
+          description: 'Más seguro. Ganas velocidad punta y superas sin contacto.',
+          positionImpact: 1,
+        },
+        {
+          id: 'wait_mistake',
+          text: 'Mantener presión y esperar su error',
+          description: 'No forzas nada. Si comete un error, aprovechas.',
+          positionImpact: 0,
+        },
       ],
     });
   }
 
-  // Decisión 5: Últimas vueltas
+  // ── Decisión 5: Últimas vueltas ───────────────────────────────
+  const vueltas = randomInt(3, 7);
   decisions.push({
     id: 'final_laps',
-    lap: totalLaps - randomInt(3, 8),
-    situation: `🏁 Faltan ${randomInt(3, 8)} vueltas. Estás en ${playerGridPos <= 10 ? 'zona de puntos' : 'la zona media'}. ¿Cómo afrontas el final?`,
+    lap: Math.max(1, totalLaps - vueltas),
+    situation: `🏁 Faltan ${vueltas} vueltas. ${playerGridPos <= 3 ? 'Estás en el podio.' : playerGridPos <= 10 ? 'Estás en zona de puntos.' : 'Pelea por cada posición.'} ¿Cómo afrontas el final?`,
     options: [
-      { id: 'push_mode', text: 'Modo ataque total', description: 'Al límite con el neumático al borde — riesgo de caída', positionImpact: -1 },
-      { id: 'steady_pace', text: 'Ritmo constante', description: 'Llevas la carrera a casa con margen de seguridad', positionImpact: 0 },
-      { id: 'fastest_lap', text: 'Ir a vuelta rápida', description: 'Buscas el punto extra por vuelta rápida en el top 15', positionImpact: 0 },
+      {
+        id: 'push_final',
+        text: 'Todo o nada — ataque máximo',
+        description: 'Al límite absoluto. Neumático al borde — riesgo de caída en la última vuelta.',
+        positionImpact: -1,
+      },
+      {
+        id: 'manage_final',
+        text: 'Gestionar y cruzar la meta',
+        description: 'Mantén el ritmo, cierra los huecos y trae los puntos a casa.',
+        positionImpact: 0,
+      },
+      {
+        id: 'fastest_lap_attempt',
+        text: 'Ir a por la vuelta rápida (+1 pto)',
+        description: 'Si estás en el top 15, merece la pena intentarlo en la última vuelta.',
+        positionImpact: 0,
+      },
     ],
   });
 

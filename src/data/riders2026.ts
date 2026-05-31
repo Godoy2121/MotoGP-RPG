@@ -1,7 +1,14 @@
 import type { Rider } from '../types';
 
+// Imágenes oficiales: resources.motogp.com (patrón 2026)
+const BASE = 'https://resources.motogp.com/files/graphs/2026/MotoGP/Riders';
+
+function photo(num: number, first: string, last: string) {
+  return `${BASE}/${num}/${first}_${last}/photo_profile.png`;
+}
+
 export const RIDERS_2026: Rider[] = [
-  // Ducati Lenovo Team
+  // ── Ducati Lenovo Team ─────────────────────────────────────────
   {
     id: 'bagnaia',
     name: 'Francesco',
@@ -12,6 +19,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ducati-lenovo',
     stats: { velocidad: 92, frenada: 90, pasoCurva: 93, aceleracion: 91, tiempoMojado: 77, gestionNeumaticos: 89 },
     overallRating: 89,
+    photoUrl: photo(63, 'Francesco', 'Bagnaia'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Ducati_Lenovo_Team/bike.png',
   },
   {
     id: 'marc-marquez',
@@ -23,8 +32,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ducati-lenovo',
     stats: { velocidad: 94, frenada: 95, pasoCurva: 91, aceleracion: 89, tiempoMojado: 83, gestionNeumaticos: 79 },
     overallRating: 90,
+    photoUrl: photo(93, 'Marc', 'Marquez'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Ducati_Lenovo_Team/bike.png',
   },
-  // Aprilia Racing
+
+  // ── Aprilia Racing ────────────────────────────────────────────
   {
     id: 'martin',
     name: 'Jorge',
@@ -35,6 +47,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'aprilia-racing',
     stats: { velocidad: 91, frenada: 88, pasoCurva: 90, aceleracion: 93, tiempoMojado: 81, gestionNeumaticos: 88 },
     overallRating: 89,
+    photoUrl: photo(89, 'Jorge', 'Martin'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Aprilia_Racing/bike.png',
   },
   {
     id: 'bezzecchi',
@@ -46,8 +60,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'aprilia-racing',
     stats: { velocidad: 88, frenada: 88, pasoCurva: 91, aceleracion: 86, tiempoMojado: 86, gestionNeumaticos: 87 },
     overallRating: 88,
+    photoUrl: photo(72, 'Marco', 'Bezzecchi'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Aprilia_Racing/bike.png',
   },
-  // Gresini Racing
+
+  // ── BK8 Gresini Racing ────────────────────────────────────────
   {
     id: 'alex-marquez',
     name: 'Álex',
@@ -58,6 +75,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'gresini',
     stats: { velocidad: 85, frenada: 86, pasoCurva: 87, aceleracion: 83, tiempoMojado: 85, gestionNeumaticos: 85 },
     overallRating: 85,
+    photoUrl: photo(73, 'Alex', 'Marquez'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/BK8_Gresini_Racing_MotoGP/bike.png',
   },
   {
     id: 'aldeguer',
@@ -69,8 +88,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'gresini',
     stats: { velocidad: 83, frenada: 81, pasoCurva: 83, aceleracion: 82, tiempoMojado: 75, gestionNeumaticos: 80 },
     overallRating: 81,
+    photoUrl: photo(54, 'Fermin', 'Aldeguer'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/BK8_Gresini_Racing_MotoGP/bike.png',
   },
-  // Red Bull KTM Factory Racing
+
+  // ── Red Bull KTM Factory Racing ───────────────────────────────
   {
     id: 'acosta',
     name: 'Pedro',
@@ -81,6 +103,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ktm-factory',
     stats: { velocidad: 89, frenada: 87, pasoCurva: 88, aceleracion: 90, tiempoMojado: 84, gestionNeumaticos: 83 },
     overallRating: 87,
+    photoUrl: photo(37, 'Pedro', 'Acosta'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Red_Bull_KTM_Factory_Racing/bike.png',
   },
   {
     id: 'binder',
@@ -92,8 +116,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ktm-factory',
     stats: { velocidad: 86, frenada: 84, pasoCurva: 84, aceleracion: 85, tiempoMojado: 80, gestionNeumaticos: 84 },
     overallRating: 84,
+    photoUrl: photo(33, 'Brad', 'Binder'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Red_Bull_KTM_Factory_Racing/bike.png',
   },
-  // VR46
+
+  // ── Pertamina Enduro VR46 ─────────────────────────────────────
   {
     id: 'digianantonio',
     name: 'Fabio',
@@ -104,6 +131,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'vr46',
     stats: { velocidad: 83, frenada: 82, pasoCurva: 84, aceleracion: 81, tiempoMojado: 76, gestionNeumaticos: 80 },
     overallRating: 81,
+    photoUrl: photo(49, 'Fabio', 'Di_Giannantonio'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Pertamina_Enduro_VR46_Racing_Team/bike.png',
   },
   {
     id: 'morbidelli',
@@ -115,8 +144,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'vr46',
     stats: { velocidad: 80, frenada: 78, pasoCurva: 81, aceleracion: 79, tiempoMojado: 77, gestionNeumaticos: 82 },
     overallRating: 80,
+    photoUrl: photo(21, 'Franco', 'Morbidelli'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Pertamina_Enduro_VR46_Racing_Team/bike.png',
   },
-  // Monster Energy Yamaha
+
+  // ── Monster Energy Yamaha ─────────────────────────────────────
   {
     id: 'quartararo',
     name: 'Fabio',
@@ -127,6 +159,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'monster-yamaha',
     stats: { velocidad: 90, frenada: 85, pasoCurva: 92, aceleracion: 83, tiempoMojado: 82, gestionNeumaticos: 89 },
     overallRating: 87,
+    photoUrl: photo(20, 'Fabio', 'Quartararo'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Monster_Energy_Yamaha_MotoGP_Team/bike.png',
   },
   {
     id: 'rins',
@@ -138,8 +172,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'monster-yamaha',
     stats: { velocidad: 84, frenada: 83, pasoCurva: 86, aceleracion: 81, tiempoMojado: 83, gestionNeumaticos: 86 },
     overallRating: 84,
+    photoUrl: photo(42, 'Alex', 'Rins'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Monster_Energy_Yamaha_MotoGP_Team/bike.png',
   },
-  // Trackhouse Aprilia
+
+  // ── Trackhouse MotoGP Team ────────────────────────────────────
   {
     id: 'fernandez',
     name: 'Raúl',
@@ -150,6 +187,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'trackhouse',
     stats: { velocidad: 82, frenada: 83, pasoCurva: 82, aceleracion: 80, tiempoMojado: 81, gestionNeumaticos: 79 },
     overallRating: 81,
+    photoUrl: photo(25, 'Raul', 'Fernandez'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Trackhouse_MotoGP_Team/bike.png',
   },
   {
     id: 'ogura',
@@ -161,8 +200,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'trackhouse',
     stats: { velocidad: 80, frenada: 79, pasoCurva: 81, aceleracion: 79, tiempoMojado: 77, gestionNeumaticos: 80 },
     overallRating: 79,
+    photoUrl: photo(79, 'Ai', 'Ogura'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Trackhouse_MotoGP_Team/bike.png',
   },
-  // KTM Tech3
+
+  // ── Red Bull KTM Tech3 ────────────────────────────────────────
   {
     id: 'vinales',
     name: 'Maverick',
@@ -173,6 +215,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ktm-tech3',
     stats: { velocidad: 86, frenada: 83, pasoCurva: 87, aceleracion: 84, tiempoMojado: 81, gestionNeumaticos: 85 },
     overallRating: 85,
+    photoUrl: photo(12, 'Maverick', 'Vinales'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Red_Bull_KTM_Tech3/bike.png',
   },
   {
     id: 'bastianini',
@@ -184,8 +228,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'ktm-tech3',
     stats: { velocidad: 85, frenada: 82, pasoCurva: 84, aceleracion: 83, tiempoMojado: 79, gestionNeumaticos: 82 },
     overallRating: 83,
+    photoUrl: photo(23, 'Enea', 'Bastianini'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Red_Bull_KTM_Tech3/bike.png',
   },
-  // Prima Pramac Yamaha
+
+  // ── Prima Pramac Racing (Yamaha) ──────────────────────────────
   {
     id: 'toprak',
     name: 'Toprak',
@@ -196,6 +243,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'pramac-yamaha',
     stats: { velocidad: 87, frenada: 89, pasoCurva: 86, aceleracion: 86, tiempoMojado: 84, gestionNeumaticos: 81 },
     overallRating: 86,
+    photoUrl: photo(7, 'Toprak', 'Razgatlioglu'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Prima_Pramac_Racing/bike.png',
   },
   {
     id: 'miller',
@@ -207,8 +256,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'pramac-yamaha',
     stats: { velocidad: 83, frenada: 84, pasoCurva: 83, aceleracion: 81, tiempoMojado: 85, gestionNeumaticos: 84 },
     overallRating: 83,
+    photoUrl: photo(43, 'Jack', 'Miller'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Prima_Pramac_Racing/bike.png',
   },
-  // Honda HRC
+
+  // ── Honda HRC Castrol ─────────────────────────────────────────
   {
     id: 'mir',
     name: 'Joan',
@@ -219,6 +271,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'honda-hrc',
     stats: { velocidad: 79, frenada: 77, pasoCurva: 80, aceleracion: 78, tiempoMojado: 80, gestionNeumaticos: 83 },
     overallRating: 79,
+    photoUrl: photo(36, 'Joan', 'Mir'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Honda_HRC_Castrol/bike.png',
   },
   {
     id: 'marini',
@@ -230,8 +284,11 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'honda-hrc',
     stats: { velocidad: 77, frenada: 76, pasoCurva: 78, aceleracion: 77, tiempoMojado: 78, gestionNeumaticos: 79 },
     overallRating: 77,
+    photoUrl: photo(10, 'Luca', 'Marini'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Honda_HRC_Castrol/bike.png',
   },
-  // LCR Honda
+
+  // ── Castrol Honda LCR ─────────────────────────────────────────
   {
     id: 'zarco',
     name: 'Johann',
@@ -242,6 +299,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'lcr-honda',
     stats: { velocidad: 78, frenada: 80, pasoCurva: 77, aceleracion: 76, tiempoMojado: 77, gestionNeumaticos: 81 },
     overallRating: 78,
+    photoUrl: photo(5, 'Johann', 'Zarco'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Castrol_Honda_LCR/bike.png',
   },
   {
     id: 'moreira',
@@ -253,6 +312,8 @@ export const RIDERS_2026: Rider[] = [
     teamId: 'lcr-honda',
     stats: { velocidad: 75, frenada: 74, pasoCurva: 76, aceleracion: 75, tiempoMojado: 73, gestionNeumaticos: 76 },
     overallRating: 75,
+    photoUrl: photo(11, 'Diogo', 'Moreira'),
+    bikeUrl: 'https://resources.motogp.com/files/graphs/2026/MotoGP/Teams/Castrol_Honda_LCR/bike.png',
   },
 ];
 

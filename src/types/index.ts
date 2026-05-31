@@ -62,6 +62,8 @@ export interface Rider {
   teamId: string;
   stats: RiderStats;
   overallRating: number;
+  photoUrl?: string;
+  bikeUrl?: string;
 }
 
 export interface Circuit {

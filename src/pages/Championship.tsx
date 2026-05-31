@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useGameStore } from '../store/gameStore';
 import { Card } from '../components/ui/Card';
+import { RiderAvatar } from '../components/ui/RiderAvatar';
 import { RIDERS_2026 } from '../data/riders2026';
 import { TEAMS_2026 } from '../data/teams2026';
 
@@ -53,9 +54,13 @@ export function Championship() {
                       i === 0 ? 'text-yellow-400' : i === 1 ? 'text-gray-300' : i === 2 ? 'text-amber-600' : 'text-gray-500'
                     }`}>{i + 1}</span>
 
-                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: isPlayer ? playerTeam?.color : team?.color }} />
-
-                    <span className="text-base flex-shrink-0">{isPlayer ? '🏍️' : (rider?.flagEmoji ?? '🏁')}</span>
+                    <RiderAvatar
+                      photoUrl={isPlayer ? undefined : rider?.photoUrl}
+                      name={isPlayer ? `${character.nombre} ${character.apellido}` : `${rider?.name ?? ''} ${rider?.surname ?? ''}`}
+                      number={isPlayer ? character.numero : (rider?.number ?? 0)}
+                      teamColor={isPlayer ? playerTeam?.color : team?.color}
+                      size="sm"
+                    />
 
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium truncate ${isPlayer ? 'text-motogp-red font-bold' : 'text-white'}`}>

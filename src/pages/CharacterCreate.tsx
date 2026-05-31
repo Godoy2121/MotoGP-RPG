@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '../store/gameStore';
+import { RiderAvatar } from '../components/ui/RiderAvatar';
 import { saveCharacter, createSeason, buildInitialStandings, buildInitialConstructors, xpForNextLevel } from '../services/gameService';
 import { updateUserProfile } from '../services/gameService';
 import { TEAMS_2026, getTeamsByTier } from '../data/teams2026';
@@ -296,7 +297,13 @@ export function CharacterCreate() {
                           : 'border-white/10 hover:border-white/20'
                       }`}
                     >
-                      <span className="text-2xl">{rider.flagEmoji}</span>
+                      <RiderAvatar
+                        photoUrl={rider.photoUrl}
+                        name={`${rider.name} ${rider.surname}`}
+                        number={rider.number}
+                        teamColor={selectedTeam?.color}
+                        size="md"
+                      />
                       <div className="text-left flex-1">
                         <p className="text-white font-medium">{rider.name} {rider.surname}</p>
                         <p className="text-xs text-gray-500">{rider.nationality} · #{rider.number}</p>
