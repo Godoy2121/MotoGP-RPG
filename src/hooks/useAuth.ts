@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
+import {
+  onAuthStateChanged, signInWithRedirect, getRedirectResult,
+  signOut, type User,
+} from 'firebase/auth';
 import { auth, googleProvider } from '../services/firebase';
 import { getUserProfile, createUserProfile } from '../services/gameService';
 import { useGameStore } from '../store/gameStore';
@@ -10,6 +13,9 @@ export function useAuth() {
   const { user, setUser } = useGameStore();
 
   useEffect(() => {
+    // Procesar resultado del redirect de vuelta a la app
+    getRedirectResult(auth).catch(() => {});
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: User | null) => {
       if (firebaseUser) {
         let profile = await getUserProfile(firebaseUser.uid);
@@ -44,7 +50,7 @@ export function useAuth() {
 
   const signInWithGoogle = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await signInWithRedirect(auth, googleProvider);
     } catch (err) {
       console.error('Error al iniciar sesión:', err);
     }
