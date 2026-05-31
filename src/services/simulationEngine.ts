@@ -111,24 +111,26 @@ export function runQualifying(
   const q1Riders = practiceScores.slice(10);
 
   // Q1: Los últimos 12, top-2 avanzan a Q2
-  const q1Results: QualifyingResult[] = q1Riders.map((ps, i) => {
+  const q1Sorted = q1Riders.map((ps) => {
     const team = teams[ps.rider.teamId];
     const stats = ps.rider.isPlayer ? character.stats : ps.rider.stats;
     const score = riderScore(stats, team?.bikePerformance ?? 80, weather, 0.07);
     const lt = lapTime(score, circuit);
     return {
       riderId: ps.rider.isPlayer ? 'player' : ps.rider.id,
-      position: i + 1,
+      position: 0,
       lapTime: lt,
       gap: 0,
       isPlayer: ps.rider.isPlayer,
     };
-  }).sort((a, b) => a.lapTime - b.lapTime)
-    .map((r, i) => ({ ...r, position: i + 1, gap: i === 0 ? 0 : r.lapTime - q1Results[0]?.lapTime }));
+  }).sort((a, b) => a.lapTime - b.lapTime);
 
-  // Recalcular gaps Q1
-  const q1Best = q1Results[0]?.lapTime ?? 0;
-  q1Results.forEach((r, i) => { r.position = i + 1; r.gap = r.lapTime - q1Best; });
+  const q1Best = q1Sorted[0]?.lapTime ?? 0;
+  const q1Results: QualifyingResult[] = q1Sorted.map((r, i) => ({
+    ...r,
+    position: i + 1,
+    gap: r.lapTime - q1Best,
+  }));
 
   const q1Promoted = q1Results.slice(0, 2);
 
