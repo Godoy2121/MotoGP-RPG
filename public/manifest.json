@@ -1,0 +1,17 @@
+{
+  "name": "MotoGP RPG Manager 2026",
+  "short_name": "MotoGP RPG",
+  "description": "Crea tu piloto y conquista el Campeonato del Mundo MotoGP 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a12",
+  "theme_color": "#E40317",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/moto-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

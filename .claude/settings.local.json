@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:\\\\FORMULA1\\\\f1-rpg\\\\src\\\\components\" -type f -name \"*.tsx\" | head -30)",
+      "Read(//c/FORMULA1/f1-rpg/src/components/**)",
+      "Bash(Get-ChildItem C:\\\\MOTOGP-RPG -Recurse -Depth 3)",
+      "Bash(Select-Object FullName, Length)",
+      "Bash(Format-Table -AutoSize)",
+      "WebSearch",
+      "WebFetch(domain:www.motogp.com)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:www.motorsport.com)",
+      "WebFetch(domain:www.crash.net)"
+    ]
+  }
+}
